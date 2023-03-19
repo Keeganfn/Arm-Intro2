@@ -91,7 +91,7 @@ if __name__ == '__main__':
         img = my_camera.frame
         if img is not None:
             frame = img.copy()
-            Frame = per.identify_box(img)           
+            Frame = per.identify_box(("red", "green"), img)           
             cv2.imshow('Frame', Frame)
             key = cv2.waitKey(1)
             if key == 27:
