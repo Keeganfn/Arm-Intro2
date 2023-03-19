@@ -45,13 +45,14 @@ class PerceptionArm():
     def identify_box(self, color, img):
         img_copy = img.copy()
         img_h, img_w = img.shape[:2]
+        roi =()
         cv2.line(img, (0, int(img_h / 2)), (img_w, int(img_h / 2)), (0, 0, 200), 1)
         cv2.line(img, (int(img_w / 2), 0), (int(img_w / 2), img_h), (0, 0, 200), 1)
         
         frame_resize = cv2.resize(img_copy, self.size, interpolation=cv2.INTER_NEAREST)
         frame_gb = cv2.GaussianBlur(frame_resize, (11, 11), 11)
         #如果检测到某个区域有识别到的物体，则一直检测该区域直到没有为止
-        frame_gb = getMaskROI(frame_gb, roi, self.size)         
+        #frame_gb = getMaskROI(frame_gb, roi, self.size)         
         frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)  # 将图像转换到LAB空间  
         area_max = 0
         areaMaxContour = 0
@@ -78,9 +79,9 @@ class PerceptionArm():
             cv2.drawContours(img, [box], -1, self.range_rgb[detect_color], 2)
             cv2.putText(img, '(' + str(world_x) + ',' + str(world_y) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, self.range_rgb[detect_color], 1) #绘制中心点
-            distance = math.sqrt(pow(world_x - last_x, 2) + pow(world_y - last_y, 2)) #对比上次坐标来判断是否移动
-            last_x, last_y = world_x, world_y
-
+            #distance = math.sqrt(pow(world_x - last_x, 2) + pow(world_y - last_y, 2)) #对比上次坐标来判断是否移动
+            #last_x, last_y = world_x, world_y
+            return img
 
 
 if __name__ == '__main__':
